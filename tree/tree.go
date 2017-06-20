@@ -35,7 +35,7 @@ func NewTree() *Tree {
 	return new(Tree)
 }
 
-// FindNode recursively looks for the node with the specified value
+// FindNode recursively looks for the Node with the specified value
 func (t *Tree) FindNode(data int) (err error) {
 	newNode := Node{
 		Data: data,
@@ -63,7 +63,7 @@ func (t *Tree) findNode(search *Node, target Node) *Node {
 	return returnNode
 }
 
-// Add appends a new node to a branch in a balanced manner
+// Add appends a new Node to a branch in a balanced manner
 func (t *Tree) Add(data int) (err error) {
 	t.Total += data
 	t.NodeCount++
@@ -248,7 +248,7 @@ func (t *Tree) GetTreeTotal() int {
 	return t.Total
 }
 
-// TreeToArray converts to the into an int slice
+// TreeToArray converts to Tree into an int slice
 func (t *Tree) TreeToArray() []int {
 	var wg sync.WaitGroup
 	c := make(chan int, 100)
