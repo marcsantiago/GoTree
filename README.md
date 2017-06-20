@@ -7,24 +7,7 @@
 * [Index](#pkg-index)
 
 ## <a name="pkg-overview">Overview</a>
-Package tree benchmarks
-All benchmarks where down on a 13inch macbook pro with a 2.5 GHz Intel Core i5 processor and 8gb of memory
-BenchmarkTreeToArr1000-4        2000000000               0.00 ns/op
-BenchmarkTreeToArr10000-4       2000000000               0.01 ns/op
-BenchmarkTreeToArr100000-4      1000000000               0.26 ns/op
-BenchmarkTreeToArr1000000-4            1        3997007417 ns/op
-BenchmarkEdgeCount1000-4        2000000000               0.00 ns/op
-BenchmarkEdgeCount10000-4       2000000000               0.01 ns/op
-BenchmarkEdgeCount100000-4      2000000000               0.15 ns/op
-BenchmarkEdgeCount1000000-4            1        3882999625 ns/op
-BenchmarkRootShift1000-4        2000000000               0.00 ns/op
-BenchmarkRootShift10000-4       1000000000               0.02 ns/op
-BenchmarkRootShift100000-4      2000000000               0.21 ns/op
-BenchmarkRootShift1000000-4            1        7592046369 ns/op
-BenchmarkNewTree1000-4          2000000000               0.00 ns/op
-BenchmarkNewTree10000-4         2000000000               0.01 ns/op
-BenchmarkNewTree100000-4        2000000000               0.09 ns/op
-BenchmarkNewTree1000000-4              1        3040027533 ns/op
+Package tree implements a basic balanced binary tree
 
 
 
@@ -56,6 +39,7 @@ BenchmarkNewTree1000000-4              1        3040027533 ns/op
 ## <a name="pkg-variables">Variables</a>
 ``` go
 var (
+
     // ErrPositiveIntegers reports that only positive intergers may be added to the tree
     ErrPositiveIntegers = fmt.Errorf("only postive integers may be added")
     // ErrNodeNotFound reports that a Node wasn't found
@@ -65,7 +49,7 @@ var (
 
 
 
-## <a name="Node">type</a> [Node](/src/target/tree.go?s=1424:1481#L20)
+## <a name="Node">type</a> [Node](/src/target/tree.go?s=219:276#L3)
 ``` go
 type Node struct {
     Left  *Node
@@ -84,7 +68,7 @@ Node is a fudemental part of what makes a tree a tree. Many Nodes creates a tree
 
 
 
-## <a name="Tree">type</a> [Tree](/src/target/tree.go?s=1536:1603#L27)
+## <a name="Tree">type</a> [Tree](/src/target/tree.go?s=331:398#L10)
 ``` go
 type Tree struct {
     Root      *Node
@@ -100,7 +84,7 @@ Tree basic tree structure.. Root is of type Node,
 
 
 
-### <a name="NewTree">func</a> [NewTree](/src/target/tree.go?s=1888:1908#L41)
+### <a name="NewTree">func</a> [NewTree](/src/target/tree.go?s=1909:1929#L44)
 ``` go
 func NewTree() *Tree
 ```
@@ -110,7 +94,7 @@ NewTree ...
 
 
 
-### <a name="Tree.Add">func</a> (\*Tree) [Add](/src/target/tree.go?s=2515:2555#L74)
+### <a name="Tree.Add">func</a> (\*Tree) [Add](/src/target/tree.go?s=2536:2576#L77)
 ``` go
 func (t *Tree) Add(data int) (err error)
 ```
@@ -119,7 +103,7 @@ Add appends a new node to a branch in a balanced manner
 
 
 
-### <a name="Tree.CountEdges">func</a> (\*Tree) [CountEdges](/src/target/tree.go?s=4856:4895#L197)
+### <a name="Tree.CountEdges">func</a> (\*Tree) [CountEdges](/src/target/tree.go?s=4877:4916#L200)
 ``` go
 func (t *Tree) CountEdges() (edges int)
 ```
@@ -128,7 +112,7 @@ CountEdges returns the number of edges the tree contains
 
 
 
-### <a name="Tree.FindNode">func</a> (\*Tree) [FindNode](/src/target/tree.go?s=1948:1993#L46)
+### <a name="Tree.FindNode">func</a> (\*Tree) [FindNode](/src/target/tree.go?s=1969:2014#L49)
 ``` go
 func (t *Tree) FindNode(data int) (err error)
 ```
@@ -137,7 +121,7 @@ FindNode ...
 
 
 
-### <a name="Tree.GenerateRandomTree">func</a> (\*Tree) [GenerateRandomTree](/src/target/tree.go?s=5603:5675#L234)
+### <a name="Tree.GenerateRandomTree">func</a> (\*Tree) [GenerateRandomTree](/src/target/tree.go?s=5624:5696#L237)
 ``` go
 func (t *Tree) GenerateRandomTree(numberOfNodesToCreate int) (err error)
 ```
@@ -146,7 +130,7 @@ GenerateRandomTree uses time (time.Now().Unix()) to create enthorpy for a source
 
 
 
-### <a name="Tree.GetRootData">func</a> (\*Tree) [GetRootData](/src/target/tree.go?s=6001:6033#L249)
+### <a name="Tree.GetRootData">func</a> (\*Tree) [GetRootData](/src/target/tree.go?s=6022:6054#L252)
 ``` go
 func (t *Tree) GetRootData() int
 ```
@@ -155,7 +139,7 @@ GetRootData returns the data stored at the root, however this does not return th
 
 
 
-### <a name="Tree.GetTreeTotal">func</a> (\*Tree) [GetTreeTotal](/src/target/tree.go?s=6127:6160#L254)
+### <a name="Tree.GetTreeTotal">func</a> (\*Tree) [GetTreeTotal](/src/target/tree.go?s=6148:6181#L257)
 ``` go
 func (t *Tree) GetTreeTotal() int
 ```
@@ -164,7 +148,7 @@ GetTreeTotal returns the sum of the collecitve nodes on the Tree
 
 
 
-### <a name="Tree.InOrderTraversal">func</a> (\*Tree) [InOrderTraversal](/src/target/tree.go?s=3207:3240#L112)
+### <a name="Tree.InOrderTraversal">func</a> (\*Tree) [InOrderTraversal](/src/target/tree.go?s=3228:3261#L115)
 ``` go
 func (t *Tree) InOrderTraversal()
 ```
@@ -173,7 +157,7 @@ InOrderTraversal prints out the values in order
 
 
 
-### <a name="Tree.PrintTree">func</a> (\*Tree) [PrintTree](/src/target/tree.go?s=7266:7292#L309)
+### <a name="Tree.PrintTree">func</a> (\*Tree) [PrintTree](/src/target/tree.go?s=7287:7313#L312)
 ``` go
 func (t *Tree) PrintTree()
 ```
@@ -183,7 +167,7 @@ object
 
 
 
-### <a name="Tree.ShiftRoot">func</a> (\*Tree) [ShiftRoot](/src/target/tree.go?s=6992:7029#L297)
+### <a name="Tree.ShiftRoot">func</a> (\*Tree) [ShiftRoot](/src/target/tree.go?s=7013:7050#L300)
 ``` go
 func (t *Tree) ShiftRoot(newRoot int)
 ```
@@ -192,7 +176,7 @@ ShiftRoot rebuilds the tree with a new root
 
 
 
-### <a name="Tree.Sum">func</a> (\*Tree) [Sum](/src/target/tree.go?s=4204:4236#L161)
+### <a name="Tree.Sum">func</a> (\*Tree) [Sum](/src/target/tree.go?s=4225:4257#L164)
 ``` go
 func (t *Tree) Sum() (total int)
 ```
@@ -202,7 +186,7 @@ value
 
 
 
-### <a name="Tree.Traversal">func</a> (\*Tree) [Traversal](/src/target/tree.go?s=3695:3721#L136)
+### <a name="Tree.Traversal">func</a> (\*Tree) [Traversal](/src/target/tree.go?s=3716:3742#L139)
 ``` go
 func (t *Tree) Traversal()
 ```
@@ -211,7 +195,7 @@ Traversal prints out the values by branch side, left, right, ect...
 
 
 
-### <a name="Tree.TreeToArray">func</a> (\*Tree) [TreeToArray](/src/target/tree.go?s=6231:6265#L259)
+### <a name="Tree.TreeToArray">func</a> (\*Tree) [TreeToArray](/src/target/tree.go?s=6252:6286#L262)
 ``` go
 func (t *Tree) TreeToArray() []int
 ```
