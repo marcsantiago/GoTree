@@ -116,7 +116,7 @@ NewTree creates a pointer to the Tree struct
 ``` go
 func (t *Tree) Add(data int) (err error)
 ```
-Add appends a new node to a branch in a balanced manner
+Add appends a new Node to a branch in a balanced manner
 
 
 
@@ -134,7 +134,7 @@ CountEdges returns the number of edges the tree contains
 ``` go
 func (t *Tree) FindNode(data int) (err error)
 ```
-FindNode recursively looks for the node with the specified value
+FindNode recursively looks for the Node with the specified value
 
 
 
@@ -175,7 +175,7 @@ InOrderTraversal prints out the values in order
 
 
 
-### <a name="Tree.PrintTree">func</a> (\*Tree) [PrintTree](/src/target/tree.go?s=6123:6149#L292)
+### <a name="Tree.PrintTree">func</a> (\*Tree) [PrintTree](/src/target/tree.go?s=6124:6150#L292)
 ``` go
 func (t *Tree) PrintTree()
 ```
@@ -185,7 +185,7 @@ object
 
 
 
-### <a name="Tree.ShiftRoot">func</a> (\*Tree) [ShiftRoot](/src/target/tree.go?s=5849:5886#L280)
+### <a name="Tree.ShiftRoot">func</a> (\*Tree) [ShiftRoot](/src/target/tree.go?s=5850:5887#L280)
 ``` go
 func (t *Tree) ShiftRoot(newRoot int)
 ```
@@ -213,11 +213,11 @@ Traversal prints out the values by branch side, left, right, ect...
 
 
 
-### <a name="Tree.TreeToArray">func</a> (\*Tree) [TreeToArray](/src/target/tree.go?s=5088:5122#L242)
+### <a name="Tree.TreeToArray">func</a> (\*Tree) [TreeToArray](/src/target/tree.go?s=5089:5123#L242)
 ``` go
 func (t *Tree) TreeToArray() []int
 ```
-TreeToArray converts to the into an int slice
+TreeToArray converts to Tree into an int slice
 
 
 
