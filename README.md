@@ -1,3 +1,4 @@
+# Note: This is not safe for concurrency
 # BenchMarks
 ```
     All benchmarks were done on a 13inch macbook pro with a 2.5 GHz Intel Core i5 processor and 8gb of memory
