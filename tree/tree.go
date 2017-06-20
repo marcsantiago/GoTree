@@ -36,16 +36,17 @@ func NewTree() *Tree {
 }
 
 // FindNode recursively looks for the Node with the specified value
-func (t *Tree) FindNode(data int) (err error) {
+func (t *Tree) FindNode(data int) (node *Node, err error) {
 	newNode := Node{
 		Data: data,
 	}
 	if t.Root != nil {
-		if t.findNode(t.Root, newNode) != nil {
-			return
+		node := t.findNode(t.Root, newNode)
+		if node != nil {
+			return node, nil
 		}
 	}
-	return ErrNodeNotFound
+	return nil, ErrNodeNotFound
 }
 
 func (t *Tree) findNode(search *Node, target Node) *Node {
