@@ -24,26 +24,6 @@ type Tree struct {
 }
 
 var (
-	/*
-		All benchmarks where down on a 13inch macbook pro with a 2.5 GHz Intel Core i5 processor and 8gb of memory
-		BenchmarkTreeToArr1000-4        2000000000               0.00 ns/op
-		BenchmarkTreeToArr10000-4       2000000000               0.01 ns/op
-		BenchmarkTreeToArr100000-4      1000000000               0.26 ns/op
-		BenchmarkTreeToArr1000000-4            1        3997007417 ns/op
-		BenchmarkEdgeCount1000-4        2000000000               0.00 ns/op
-		BenchmarkEdgeCount10000-4       2000000000               0.01 ns/op
-		BenchmarkEdgeCount100000-4      2000000000               0.15 ns/op
-		BenchmarkEdgeCount1000000-4            1        3882999625 ns/op
-		BenchmarkRootShift1000-4        2000000000               0.00 ns/op
-		BenchmarkRootShift10000-4       1000000000               0.02 ns/op
-		BenchmarkRootShift100000-4      2000000000               0.21 ns/op
-		BenchmarkRootShift1000000-4            1        7592046369 ns/op
-		BenchmarkNewTree1000-4          2000000000               0.00 ns/op
-		BenchmarkNewTree10000-4         2000000000               0.01 ns/op
-		BenchmarkNewTree100000-4        2000000000               0.09 ns/op
-		BenchmarkNewTree1000000-4              1        3040027533 ns/op
-	*/
-
 	// ErrPositiveIntegers reports that only positive intergers may be added to the tree
 	ErrPositiveIntegers = fmt.Errorf("only postive integers may be added")
 	// ErrNodeNotFound reports that a Node wasn't found
