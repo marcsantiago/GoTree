@@ -1,14 +1,5 @@
-package tree
-
-import (
-	"encoding/json"
-	"fmt"
-	"math/rand"
-	"sync"
-	"time"
-)
-
-// All bench marks where down on a 13inch macbook pro with a 2.5 GHz Intel Core i5 processor and 8gb of memory
+// Package tree benchmarks
+// All benchmarks where down on a 13inch macbook pro with a 2.5 GHz Intel Core i5 processor and 8gb of memory
 // BenchmarkTreeToArr1000-4        2000000000               0.00 ns/op
 // BenchmarkTreeToArr10000-4       2000000000               0.01 ns/op
 // BenchmarkTreeToArr100000-4      1000000000               0.26 ns/op
@@ -25,6 +16,15 @@ import (
 // BenchmarkNewTree10000-4         2000000000               0.01 ns/op
 // BenchmarkNewTree100000-4        2000000000               0.09 ns/op
 // BenchmarkNewTree1000000-4              1        3040027533 ns/op
+package tree
+
+import (
+	"encoding/json"
+	"fmt"
+	"math/rand"
+	"sync"
+	"time"
+)
 
 // Node is a fudemental part of what makes a tree a tree. Many Nodes creates a tree
 type Node struct {
