@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"./tree"
+	"github.com/marcsantiago/GoTree/tree"
 )
 
 func main() {

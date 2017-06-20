@@ -1,2 +1,209 @@
-# GoTree
-A balanced integer based binary tree written in go for example purposes
+
+
+# tree
+`import "github.com/marcsantiago/GoTree/tree"`
+
+* [Overview](#pkg-overview)
+* [Index](#pkg-index)
+
+## <a name="pkg-overview">Overview</a>
+
+
+
+## <a name="pkg-index">Index</a>
+* [Variables](#pkg-variables)
+* [type Node](#Node)
+* [type Tree](#Tree)
+  * [func NewTree() *Tree](#NewTree)
+  * [func (t *Tree) Add(data int) (err error)](#Tree.Add)
+  * [func (t *Tree) CountEdges() (edges int)](#Tree.CountEdges)
+  * [func (t *Tree) FindNode(data int) (err error)](#Tree.FindNode)
+  * [func (t *Tree) GenerateRandomTree(numberOfNodesToCreate int) (err error)](#Tree.GenerateRandomTree)
+  * [func (t *Tree) GetRootData() int](#Tree.GetRootData)
+  * [func (t *Tree) GetTreeTotal() int](#Tree.GetTreeTotal)
+  * [func (t *Tree) InOrderTraversal()](#Tree.InOrderTraversal)
+  * [func (t *Tree) PrintTree()](#Tree.PrintTree)
+  * [func (t *Tree) ShiftRoot(newRoot int)](#Tree.ShiftRoot)
+  * [func (t *Tree) Sum() (total int)](#Tree.Sum)
+  * [func (t *Tree) Traversal()](#Tree.Traversal)
+  * [func (t *Tree) TreeToArray() []int](#Tree.TreeToArray)
+
+
+#### <a name="pkg-files">Package files</a>
+[tree.go](/src/github.com/marcsantiago/GoTree/tree/tree.go) 
+
+
+
+## <a name="pkg-variables">Variables</a>
+``` go
+var (
+    // ErrPositiveIntegers reports that only positive intergers may be added to the tree
+    ErrPositiveIntegers = fmt.Errorf("only postive integers may be added")
+    // ErrNodeNotFound reports that a Node wasn't found
+    ErrNodeNotFound = fmt.Errorf("Node not found")
+)
+```
+
+
+
+## <a name="Node">type</a> [Node](/src/target/tree.go?s=163:220#L2)
+``` go
+type Node struct {
+    Left  *Node
+    Right *Node
+    Data  int
+}
+```
+Node is a fudemental part of what makes a tree a tree. Many Nodes creates a tree
+
+
+
+
+
+
+
+
+
+
+## <a name="Tree">type</a> [Tree](/src/target/tree.go?s=275:342#L9)
+``` go
+type Tree struct {
+    Root      *Node
+    Total     int
+    NodeCount int
+}
+```
+Tree basic tree structure.. Root is of type Node,
+
+
+
+
+
+
+
+### <a name="NewTree">func</a> [NewTree](/src/target/tree.go?s=627:647#L23)
+``` go
+func NewTree() *Tree
+```
+NewTree ...
+
+
+
+
+
+### <a name="Tree.Add">func</a> (\*Tree) [Add](/src/target/tree.go?s=1254:1294#L56)
+``` go
+func (t *Tree) Add(data int) (err error)
+```
+Add appends a new node to a branch in a balanced manner
+
+
+
+
+### <a name="Tree.CountEdges">func</a> (\*Tree) [CountEdges](/src/target/tree.go?s=3595:3634#L179)
+``` go
+func (t *Tree) CountEdges() (edges int)
+```
+CountEdges returns the number of edges the tree contains
+
+
+
+
+### <a name="Tree.FindNode">func</a> (\*Tree) [FindNode](/src/target/tree.go?s=687:732#L28)
+``` go
+func (t *Tree) FindNode(data int) (err error)
+```
+FindNode ...
+
+
+
+
+### <a name="Tree.GenerateRandomTree">func</a> (\*Tree) [GenerateRandomTree](/src/target/tree.go?s=4342:4414#L216)
+``` go
+func (t *Tree) GenerateRandomTree(numberOfNodesToCreate int) (err error)
+```
+GenerateRandomTree uses time (time.Now().Unix()) to create enthorpy for a source of random numbers to append to the Tree
+
+
+
+
+### <a name="Tree.GetRootData">func</a> (\*Tree) [GetRootData](/src/target/tree.go?s=4740:4772#L231)
+``` go
+func (t *Tree) GetRootData() int
+```
+GetRootData returns the data stored at the root, however this does not return the root Node
+
+
+
+
+### <a name="Tree.GetTreeTotal">func</a> (\*Tree) [GetTreeTotal](/src/target/tree.go?s=4866:4899#L236)
+``` go
+func (t *Tree) GetTreeTotal() int
+```
+GetTreeTotal returns the sum of the collecitve nodes on the Tree
+
+
+
+
+### <a name="Tree.InOrderTraversal">func</a> (\*Tree) [InOrderTraversal](/src/target/tree.go?s=1946:1979#L94)
+``` go
+func (t *Tree) InOrderTraversal()
+```
+InOrderTraversal prints out the values in order
+
+
+
+
+### <a name="Tree.PrintTree">func</a> (\*Tree) [PrintTree](/src/target/tree.go?s=6005:6031#L291)
+``` go
+func (t *Tree) PrintTree()
+```
+PrintTree uses json.MarshalIndent() to print the Tree in an organized fashion, which can then be analysized as a JSON
+object
+
+
+
+
+### <a name="Tree.ShiftRoot">func</a> (\*Tree) [ShiftRoot](/src/target/tree.go?s=5731:5768#L279)
+``` go
+func (t *Tree) ShiftRoot(newRoot int)
+```
+ShiftRoot rebuilds the tree with a new root
+
+
+
+
+### <a name="Tree.Sum">func</a> (\*Tree) [Sum](/src/target/tree.go?s=2943:2975#L143)
+``` go
+func (t *Tree) Sum() (total int)
+```
+Sum added up all the values stored in the Nodes.. It is a redundant function because total value is kept as a Tree
+value
+
+
+
+
+### <a name="Tree.Traversal">func</a> (\*Tree) [Traversal](/src/target/tree.go?s=2434:2460#L118)
+``` go
+func (t *Tree) Traversal()
+```
+Traversal prints out the values by branch side, left, right, ect...
+
+
+
+
+### <a name="Tree.TreeToArray">func</a> (\*Tree) [TreeToArray](/src/target/tree.go?s=4970:5004#L241)
+``` go
+func (t *Tree) TreeToArray() []int
+```
+TreeToArray converts to the into an int slice
+
+
+
+
+
+
+
+
+- - -
+Generated by [godoc2md](http://godoc.org/github.com/davecheney/godoc2md)
