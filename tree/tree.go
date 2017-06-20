@@ -9,14 +9,14 @@ import (
 	"time"
 )
 
-// Node is a fudemental part of what makes a tree a tree. Many Nodes creates a tree
+// Node is a fundemental part of what makes a tree a tree. Many Nodes creates a tree
 type Node struct {
 	Left  *Node
 	Right *Node
 	Data  int
 }
 
-// Tree basic tree structure.. Root is of type Node,
+// Tree basic tree structure
 type Tree struct {
 	Root      *Node
 	Total     int
@@ -30,12 +30,12 @@ var (
 	ErrNodeNotFound = fmt.Errorf("Node not found")
 )
 
-// NewTree ...
+// NewTree creates a pointer to the Tree struct
 func NewTree() *Tree {
 	return new(Tree)
 }
 
-// FindNode ...
+// FindNode recursively looks for the node with the specified value
 func (t *Tree) FindNode(data int) (err error) {
 	newNode := Node{
 		Data: data,
@@ -243,7 +243,7 @@ func (t *Tree) GetRootData() int {
 	return t.Root.Data
 }
 
-// GetTreeTotal returns the sum of the collecitve nodes on the Tree
+// GetTreeTotal returns the sum of the collective nodes on the Tree
 func (t *Tree) GetTreeTotal() int {
 	return t.Total
 }
