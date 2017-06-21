@@ -64,8 +64,8 @@ func (t *Tree) findNode(search *Node, target Node) *Node {
 	return returnNode
 }
 
-// Add appends a new Node to a branch in a balanced manner
-func (t *Tree) Add(data int) (err error) {
+// AddRecusively appends a new Node to a branch in a balanced manner recusively
+func (t *Tree) AddRecusively(data int) (err error) {
 	t.Total += data
 	t.NodeCount++
 	if data < 0 {
@@ -81,22 +81,65 @@ func (t *Tree) Add(data int) (err error) {
 		t.Root = &NodeToAdd
 		return
 	}
-	t.add(t.Root, NodeToAdd)
+	t.addRecusively(t.Root, NodeToAdd)
 	return
 }
 
-func (t *Tree) add(oldNode *Node, newNode Node) {
+func (t *Tree) addRecusively(oldNode *Node, newNode Node) {
 	if newNode.Data < oldNode.Data {
 		if oldNode.Left == nil {
 			oldNode.Left = &newNode
 		} else {
-			t.add(oldNode.Left, newNode)
+			t.addRecusively(oldNode.Left, newNode)
 		}
 	} else if newNode.Data > oldNode.Data {
 		if oldNode.Right == nil {
 			oldNode.Right = &newNode
 		} else {
-			t.add(oldNode.Right, newNode)
+			t.addRecusively(oldNode.Right, newNode)
+		}
+	}
+	return
+}
+
+// AddIteratively appends a new Node to a branch in a balanced manner interatively, which in most cases is faster then
+// recursion in Go
+func (t *Tree) AddIteratively(data int) (err error) {
+	t.Total += data
+	t.NodeCount++
+	if data < 0 {
+		return ErrPositiveIntegers
+	}
+	NodeToAdd := Node{
+		Data: data,
+	}
+	if t.Root == nil {
+		t.Root = new(Node)
+	}
+	if t.Root.Data == 0 {
+		t.Root = &NodeToAdd
+		return
+	}
+	t.addIteratively(t.Root, NodeToAdd)
+	return
+}
+
+func (t *Tree) addIteratively(oldNode *Node, newNode Node) {
+	for {
+		if newNode.Data < oldNode.Data {
+			if oldNode.Left == nil {
+				oldNode.Left = &newNode
+				break
+			} else {
+				oldNode = oldNode.Left
+			}
+		} else if newNode.Data > oldNode.Data {
+			if oldNode.Right == nil {
+				oldNode.Right = &newNode
+				break
+			} else {
+				oldNode = oldNode.Right
+			}
 		}
 	}
 	return
@@ -224,8 +267,8 @@ func (t *Tree) countEdges(n *Node, counter chan int, wg *sync.WaitGroup) {
 	return
 }
 
-// GenerateRandomTree uses time (time.Now().Unix()) to create enthorpy for a source of random numbers to append to the Tree
-func (t *Tree) GenerateRandomTree(numberOfNodesToCreate int) (err error) {
+// GenerateRandomTreeRecusively uses time (time.Now().Unix()) to create enthorpy for a source of random numbers to append to the Tree
+func (t *Tree) GenerateRandomTreeRecusively(numberOfNodesToCreate int) (err error) {
 	if numberOfNodesToCreate < 0 {
 		return ErrPositiveIntegers
 	}
@@ -234,7 +277,22 @@ func (t *Tree) GenerateRandomTree(numberOfNodesToCreate int) (err error) {
 	r := rand.New(source)
 	arr := r.Perm(numberOfNodesToCreate)
 	for _, a := range arr {
-		t.Add(a)
+		t.AddRecusively(a)
+	}
+	return
+}
+
+// GenerateRandomTreeIteratively uses time (time.Now().Unix()) to create enthorpy for a source of random numbers to append to the Tree
+func (t *Tree) GenerateRandomTreeIteratively(numberOfNodesToCreate int) (err error) {
+	if numberOfNodesToCreate < 0 {
+		return ErrPositiveIntegers
+	}
+	u := time.Now()
+	source := rand.NewSource(u.Unix())
+	r := rand.New(source)
+	arr := r.Perm(numberOfNodesToCreate)
+	for _, a := range arr {
+		t.AddIteratively(a)
 	}
 	return
 }
@@ -291,9 +349,9 @@ func (t *Tree) traversalGetVals(n *Node, c chan int, wg *sync.WaitGroup) {
 func (t *Tree) ShiftRoot(newRoot int) {
 	arr := t.TreeToArray()
 	n := Tree{}
-	n.Add(newRoot)
+	n.AddRecusively(newRoot)
 	for _, i := range arr {
-		n.Add(i)
+		n.AddRecusively(i)
 	}
 	*t = n
 }
