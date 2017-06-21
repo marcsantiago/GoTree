@@ -10,8 +10,8 @@ import (
 
 func main() {
 	// Using time go run example.go, takes
-	// go run example.go  235.89s user 11.92s system 174% cpu 2:21.75 total
-	// While suming with this function is a bit slower then just calling GetTreeTotal()
+	// go run example.go  81.86s user 11.17s system 195% cpu 47.536 total
+	// While suming with this function is a slower then just calling GetTreeTotal()
 	// the real bottle neck is adding that many Nodes to the tree. It uses a lot of memory, so be careful when
 	// executing this funcion
 	t := tree.NewTree()
