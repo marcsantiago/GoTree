@@ -347,11 +347,18 @@ func (t *Tree) traversalGetVals(n *Node, c chan int, wg *sync.WaitGroup) {
 
 // ShiftRoot rebuilds the tree with a new root
 func (t *Tree) ShiftRoot(newRoot int) {
-	arr := t.TreeToArray()
 	n := Tree{}
-	n.AddRecusively(newRoot)
-	for _, i := range arr {
-		n.AddRecusively(i)
+	n.AddIteratively(newRoot)
+	var wg sync.WaitGroup
+	c := make(chan int, 100)
+	wg.Add(1)
+	n.traversalGetVals(n.Root, c, &wg)
+	go func() {
+		wg.Wait()
+		close(c)
+	}()
+	for num := range c {
+		n.AddIteratively(num)
 	}
 	*t = n
 }
