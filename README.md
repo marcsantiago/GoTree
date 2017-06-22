@@ -3,24 +3,24 @@
 ```
     BenchmarkTreeToArr1000-4                2000000000               0.00 ns/op
     BenchmarkTreeToArr10000-4               2000000000               0.01 ns/op
-    BenchmarkTreeToArr100000-4              1000000000               0.26 ns/op
-    BenchmarkTreeToArr1000000-4                    1        4104739080 ns/op
+    BenchmarkTreeToArr100000-4              1000000000               0.25 ns/op
+    BenchmarkTreeToArr1000000-4                    1        4040629920 ns/op
     BenchmarkEdgeCount1000-4                2000000000               0.00 ns/op
     BenchmarkEdgeCount10000-4               2000000000               0.01 ns/op
-    BenchmarkEdgeCount100000-4              1000000000               0.25 ns/op
-    BenchmarkEdgeCount1000000-4                    1        3931716047 ns/op
+    BenchmarkEdgeCount100000-4              2000000000               0.12 ns/op
+    BenchmarkEdgeCount1000000-4                    1        4207954738 ns/op
     BenchmarkRootShift1000-4                2000000000               0.00 ns/op
-    BenchmarkRootShift10000-4               1000000000               0.02 ns/op
-    BenchmarkRootShift100000-4              2000000000               0.22 ns/op
-    BenchmarkRootShift1000000-4                    1        8092234935 ns/op
+    BenchmarkRootShift10000-4               2000000000               0.00 ns/op
+    BenchmarkRootShift100000-4              2000000000               0.09 ns/op
+    BenchmarkRootShift1000000-4                    1        3081776385 ns/op
     BenchmarkNewTreeRecusively1000-4        2000000000               0.00 ns/op
-    BenchmarkNewTreeRecusively10000-4       2000000000               0.01 ns/op
-    BenchmarkNewTreeRecusively100000-4      2000000000               0.09 ns/op
-    BenchmarkNewTreeRecusively1000000-4            1        3280005355 ns/op
+    BenchmarkNewTreeRecusively10000-4       2000000000               0.00 ns/op
+    BenchmarkNewTreeRecusively100000-4      2000000000               0.11 ns/op
+    BenchmarkNewTreeRecusively1000000-4            1        3445230256 ns/op
     BenchmarkNewTreeIteratively1000-4       2000000000               0.00 ns/op
     BenchmarkNewTreeIteratively10000-4      2000000000               0.00 ns/op
     BenchmarkNewTreeIteratively100000-4     2000000000               0.02 ns/op
-    BenchmarkNewTreeIteratively1000000-4           1        1038055977 ns/op
+    BenchmarkNewTreeIteratively1000000-4           1        1028531304 ns/op
 ```
 
 # tree
