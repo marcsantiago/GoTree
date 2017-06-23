@@ -342,7 +342,7 @@ func (t *Tree) ShiftRoot(newRoot int) {
 		n.AddIteratively(num, false)
 	}
 	*t = n
-	t.Rebalance()
+	// t.Rebalance()
 }
 
 // PrintTree uses json.MarshalIndent() to print the Tree in an organized fashion, which can then be analysized as a JSON
