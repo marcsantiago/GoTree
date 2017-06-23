@@ -4,7 +4,9 @@ package tree
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"math/rand"
+	"sort"
 	"sync"
 	"time"
 )
@@ -28,11 +30,19 @@ var (
 	ErrPositiveIntegers = fmt.Errorf("only postive integers may be added")
 	// ErrNodeNotFound reports that a Node wasn't found
 	ErrNodeNotFound = fmt.Errorf("Node not found")
+	// HeightMininum set the depth difference for rebalancing
+	HeightMininum = 2.0
 )
 
 // NewTree creates a pointer to the Tree struct
 func NewTree() *Tree {
 	return new(Tree)
+}
+
+// SetMaxDepthDifference changes the default from two, which would decrease the balance of the tree, but
+// allow faster random tree generations.
+func SetMaxDepthDifference(maxDifference float64) {
+	HeightMininum = maxDifference
 }
 
 // FindNode recursively looks for the Node with the specified value
@@ -65,7 +75,7 @@ func (t *Tree) findNode(search *Node, target Node) *Node {
 }
 
 // AddRecusively appends a new Node to a branch in a balanced manner recusively
-func (t *Tree) AddRecusively(data int) (err error) {
+func (t *Tree) AddRecusively(data int, balanceTree bool) (err error) {
 	t.Total += data
 	t.NodeCount++
 	if data < 0 {
@@ -82,6 +92,9 @@ func (t *Tree) AddRecusively(data int) (err error) {
 		return
 	}
 	t.addRecusively(t.Root, NodeToAdd)
+	if balanceTree {
+		t.Rebalance()
+	}
 	return
 }
 
@@ -104,7 +117,7 @@ func (t *Tree) addRecusively(oldNode *Node, newNode Node) {
 
 // AddIteratively appends a new Node to a branch in a balanced manner interatively, which in most cases is faster then
 // recursion in Go
-func (t *Tree) AddIteratively(data int) (err error) {
+func (t *Tree) AddIteratively(data int, balanceTree bool) (err error) {
 	t.Total += data
 	t.NodeCount++
 	if data < 0 {
@@ -121,6 +134,9 @@ func (t *Tree) AddIteratively(data int) (err error) {
 		return
 	}
 	t.addIteratively(t.Root, NodeToAdd)
+	if balanceTree {
+		t.Rebalance()
+	}
 	return
 }
 
@@ -277,8 +293,9 @@ func (t *Tree) GenerateRandomTreeRecusively(numberOfNodesToCreate int) (err erro
 	r := rand.New(source)
 	arr := r.Perm(numberOfNodesToCreate)
 	for _, a := range arr {
-		t.AddRecusively(a)
+		t.AddRecusively(a, false)
 	}
+	t.Rebalance()
 	return
 }
 
@@ -292,8 +309,9 @@ func (t *Tree) GenerateRandomTreeIteratively(numberOfNodesToCreate int) (err err
 	r := rand.New(source)
 	arr := r.Perm(numberOfNodesToCreate)
 	for _, a := range arr {
-		t.AddIteratively(a)
+		t.AddIteratively(a, false)
 	}
+	t.Rebalance()
 	return
 }
 
@@ -348,7 +366,7 @@ func (t *Tree) traversalGetVals(n *Node, c chan int, wg *sync.WaitGroup) {
 // ShiftRoot rebuilds the tree with a new root
 func (t *Tree) ShiftRoot(newRoot int) {
 	n := Tree{}
-	n.AddIteratively(newRoot)
+	n.AddIteratively(newRoot, false)
 	var wg sync.WaitGroup
 	c := make(chan int, 100)
 	wg.Add(1)
@@ -358,9 +376,10 @@ func (t *Tree) ShiftRoot(newRoot int) {
 		close(c)
 	}()
 	for num := range c {
-		n.AddIteratively(num)
+		n.AddIteratively(num, false)
 	}
 	*t = n
+	t.Rebalance()
 }
 
 // PrintTree uses json.MarshalIndent() to print the Tree in an organized fashion, which can then be analysized as a JSON
@@ -371,4 +390,61 @@ func (t *Tree) PrintTree() {
 		panic(err)
 	}
 	fmt.Println(string(b))
+}
+
+func getDepth(root *Node) float64 {
+	if root == nil {
+		return 0
+	}
+	return math.Max(getDepth(root.Left), getDepth(root.Right)) + 1
+}
+
+// GetDepth gets the maximum depth of the tree
+func (t *Tree) GetDepth() float64 {
+	return getDepth(t.Root)
+}
+
+// IsBalanced checks to see if the tree is balanced, where the threshold is defaulted to a difference of two
+func (t *Tree) IsBalanced() bool {
+	if t.Root == nil {
+		return true
+	}
+	heightDiff := getDepth(t.Root.Left) - getDepth(t.Root.Right)
+	if math.Abs(heightDiff) > HeightMininum {
+		return false
+	}
+	return true
+}
+
+// Rebalance converts the tree into an array, sorts the array, creates a new tree from that array, and assigns it's pointer
+func (t *Tree) Rebalance() {
+	if !t.IsBalanced() {
+		list := t.TreeToArray()
+		newTree := ArrToTree(list)
+		// copy over meta data
+		newTree.NodeCount = t.NodeCount
+		newTree.Total = t.Total
+		// assign a pointer to a pointer
+		*t = *newTree
+	}
+}
+
+// ArrToTree converts an interger slice into a tree
+func ArrToTree(arr []int) *Tree {
+	sort.Ints(arr)
+	t := new(Tree)
+	t.Root = arrToTree(arr, 0, len(arr)-1)
+	return t
+}
+
+func arrToTree(arr []int, start, end int) *Node {
+	if start > end {
+		return nil
+	}
+	mid := (start + end) / 2
+	n := new(Node)
+	n.Data = arr[mid]
+	n.Left = arrToTree(arr, start, mid-1)
+	n.Right = arrToTree(arr, mid+1, end)
+	return n
 }
