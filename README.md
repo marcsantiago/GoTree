@@ -36,7 +36,7 @@ Package tree implements a basic balanced binary tree
 * [func SetMaxDepthDifference(maxDifference float64)](#SetMaxDepthDifference)
 * [type Node](#Node)
 * [type Tree](#Tree)
-  * [func ArrToTree(arr []int) *Tree](#ArrToTree)
+  * [func ArrToTree(arr []int) Tree](#ArrToTree)
   * [func NewTree() *Tree](#NewTree)
   * [func (t *Tree) AddIteratively(data int, balanceTree bool) (err error)](#Tree.AddIteratively)
   * [func (t *Tree) AddRecusively(data int, balanceTree bool) (err error)](#Tree.AddRecusively)
@@ -118,9 +118,9 @@ Tree basic tree structure
 
 
 
-### <a name="ArrToTree">func</a> [ArrToTree](/src/target/tree.go?s=9168:9199#L427)
+### <a name="ArrToTree">func</a> [ArrToTree](/src/target/tree.go?s=9167:9197#L427)
 ``` go
-func ArrToTree(arr []int) *Tree
+func ArrToTree(arr []int) Tree
 ```
 ArrToTree converts an interger slice into a tree
 
