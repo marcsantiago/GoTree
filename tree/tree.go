@@ -428,15 +428,15 @@ func rebalance(t *Tree) (newTree Tree) {
 		newTree := ArrToTree(list)
 		newTree.Total = t.Total
 		newTree.NodeCount = t.NodeCount
-		return newTree
+		return *newTree
 	}
 	return
 }
 
 // ArrToTree converts an interger slice into a tree
-func ArrToTree(arr []int) Tree {
+func ArrToTree(arr []int) *Tree {
 	sort.Ints(arr)
-	t := Tree{}
+	t := new(Tree)
 	t.Root = arrToTree(arr, 0, len(arr)-1)
 	return t
 }
