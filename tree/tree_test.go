@@ -137,28 +137,28 @@ func BenchmarkEdgeCount1000000(b *testing.B) {
 	b.StopTimer()
 }
 
-func BenchmarkNewTreeRecusively1000(b *testing.B) {
+func BenchmarkNewTree1000(b *testing.B) {
 	myTree := NewTree()
 	b.StartTimer()
 	myTree.GenerateRandomTree(1000)
 	b.StopTimer()
 }
 
-func BenchmarkNewTreeRecusively10000(b *testing.B) {
+func BenchmarkNewTree10000(b *testing.B) {
 	myTree := NewTree()
 	b.StartTimer()
 	myTree.GenerateRandomTree(10000)
 	b.StopTimer()
 }
 
-func GenerateRandomTree(b *testing.B) {
+func GenerateRandomTree100000(b *testing.B) {
 	myTree := NewTree()
 	b.StartTimer()
 	myTree.GenerateRandomTree(100000)
 	b.StopTimer()
 }
 
-func BenchmarkNewTreeRecusively1000000(b *testing.B) {
+func BenchmarkNewTree1000000(b *testing.B) {
 	myTree := NewTree()
 	b.StartTimer()
 	myTree.GenerateRandomTree(1000000)
