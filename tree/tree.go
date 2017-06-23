@@ -74,69 +74,67 @@ func (t *Tree) findNode(search *Node, target Node) *Node {
 	return returnNode
 }
 
-// Sum added up all the values stored in the Nodes.. It is a redundant function because total value is kept as a Tree
+// GetTotalAndNodeCount added up all the values stored in the Nodes.. It is a redundant function because total value is kept as a Tree
 // value
-func (t *Tree) Sum() (total int) {
-	var wg sync.WaitGroup
-	c := make(chan int, 100)
+func (t *Tree) GetTotalAndNodeCount() (total int, nodeCount int) {
 	if t.Root != nil {
 		currentNode := t.Root
 		if currentNode.Left == nil && currentNode.Right == nil {
-			return 1
+			return 0, 1
 		}
-		wg.Add(1)
-		t.sum(currentNode, c, &wg)
+		total, nodeCount = t.sum(currentNode)
 	}
-	go func() {
-		wg.Wait()
-		close(c)
-	}()
-	for n := range c {
-		total += n
-	}
-	return total
+	return total, nodeCount
 }
 
-func (t *Tree) sum(n *Node, counter chan int, wg *sync.WaitGroup) {
-	defer wg.Done()
-	if n.Left != nil {
-		wg.Add(1)
-		go t.sum(n.Left, counter, wg)
+// Instead of using recursive or channels, I decided to demonstrate another way to tranverse the tree..
+// for an channel Example see the CountEdges() method,
+func (t *Tree) sum(n *Node) (int, int) {
+	total := 0
+	nodeCount := 0
+	// create a starting stack
+	var stack []*Node
+	for n != nil {
+		// push
+		stack = append(stack, n)
+		n = n.Left
 	}
-	counter <- n.Data
-	if n.Right != nil {
-		wg.Add(1)
-		go t.sum(n.Right, counter, wg)
+	for len(stack) > 0 {
+		// pop a value out
+		// https://github.com/golang/go/wiki/SliceTricks
+		n, stack = stack[len(stack)-1], stack[:len(stack)-1]
+		total += n.Data
+		nodeCount++
+		if n.Right != nil {
+			n = n.Right
+			for n != nil {
+				stack = append(stack, n)
+				n = n.Left
+			}
+		}
 	}
-	return
+	return total, nodeCount
 }
 
 // AddRecusively appends a new Node to a branch in a balanced manner recusively
-func (t *Tree) AddRecusively(data int, balanceTree bool) (err error) {
+func (t *Tree) AddRecusively(data int) (err error) {
 	t.Total += data
 	t.NodeCount++
 	if data < 0 {
 		return ErrPositiveIntegers
 	}
-	NodeToAdd := Node{
-		Data: data,
-	}
+	NodeToAdd := Node{Data: data}
 	if t.Root == nil {
-		t.Root = new(Node)
-	}
-	if t.Root.Data == 0 {
 		t.Root = &NodeToAdd
 		return
 	}
 	t.addRecusively(t.Root, NodeToAdd)
-	if balanceTree {
-		if t.Root != nil {
-			newTree := rebalance(t)
-			if newTree.Root != nil {
-				*t = newTree
-			}
-
+	if t.Root != nil {
+		newTree := rebalance(t)
+		if newTree.Root != nil {
+			*t = newTree
 		}
+
 	}
 	return
 }
@@ -160,31 +158,24 @@ func (t *Tree) addRecusively(oldNode *Node, newNode Node) {
 
 // AddIteratively appends a new Node to a branch in a balanced manner interatively, which in most cases is faster then
 // recursion in Go
-func (t *Tree) AddIteratively(data int, balanceTree bool) (err error) {
+func (t *Tree) AddIteratively(data int) (err error) {
 	t.Total += data
 	t.NodeCount++
 	if data < 0 {
 		return ErrPositiveIntegers
 	}
-	NodeToAdd := Node{
-		Data: data,
-	}
+	NodeToAdd := Node{Data: data}
 	if t.Root == nil {
-		t.Root = new(Node)
-	}
-	if t.Root.Data == 0 {
 		t.Root = &NodeToAdd
 		return
 	}
 	t.addIteratively(t.Root, NodeToAdd)
-	if balanceTree {
-		if t.Root != nil {
-			newTree := rebalance(t)
-			if newTree.Root != nil {
-				*t = newTree
-			}
-
+	if t.Root != nil {
+		newTree := rebalance(t)
+		if newTree.Root != nil {
+			*t = newTree
 		}
+
 	}
 	return
 }
@@ -295,8 +286,8 @@ func (t *Tree) countEdges(n *Node, counter chan int, wg *sync.WaitGroup) {
 	return
 }
 
-// GenerateRandomTreeRecusively uses time (time.Now().Unix()) to create enthorpy for a source of random numbers to append to the Tree
-func (t *Tree) GenerateRandomTreeRecusively(numberOfNodesToCreate int) (err error) {
+// GenerateRandomTree uses time (time.Now().Unix()) to create enthorpy for a source of random numbers to append to the Tree
+func (t *Tree) GenerateRandomTree(numberOfNodesToCreate int) (err error) {
 	if numberOfNodesToCreate < 0 {
 		return ErrPositiveIntegers
 	}
@@ -304,39 +295,9 @@ func (t *Tree) GenerateRandomTreeRecusively(numberOfNodesToCreate int) (err erro
 	source := rand.NewSource(u.Unix())
 	r := rand.New(source)
 	arr := r.Perm(numberOfNodesToCreate + 1)
-	for _, a := range arr {
-		t.AddRecusively(a, false)
-	}
-	if t.Root != nil {
-		newTree := rebalance(t)
-		if newTree.Root != nil {
-			*t = newTree
-		}
-
-	}
-
-	return
-}
-
-// GenerateRandomTreeIteratively uses time (time.Now().Unix()) to create enthorpy for a source of random numbers to append to the Tree
-func (t *Tree) GenerateRandomTreeIteratively(numberOfNodesToCreate int) (err error) {
-	if numberOfNodesToCreate < 0 {
-		return ErrPositiveIntegers
-	}
-	u := time.Now()
-	source := rand.NewSource(u.Unix())
-	r := rand.New(source)
-	arr := r.Perm(numberOfNodesToCreate + 1)
-	for _, a := range arr {
-		t.AddIteratively(a, false)
-	}
-	if t.Root != nil {
-		newTree := rebalance(t)
-		if newTree.Root != nil {
-			*t = newTree
-		}
-
-	}
+	newTree := ArrToTree(arr)
+	*t = *newTree
+	t.Total, t.NodeCount = newTree.GetTotalAndNodeCount()
 	return
 }
 
@@ -360,6 +321,8 @@ func (t *Tree) TreeToArray() []int {
 		if currentNode.Left == nil && currentNode.Right == nil {
 			return []int{currentNode.Data}
 		}
+		// send the root node
+		c <- currentNode.Data
 		wg.Add(1)
 		t.traversalGetVals(currentNode, c, &wg)
 	}
@@ -433,7 +396,7 @@ func rebalance(t *Tree) (newTree Tree) {
 	return
 }
 
-// ArrToTree converts an interger slice into a tree
+// ArrToTree converts an interger slice into a tree, but it won't store the NodeCount or Total
 func ArrToTree(arr []int) *Tree {
 	sort.Ints(arr)
 	t := new(Tree)
