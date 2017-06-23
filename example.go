@@ -2,18 +2,17 @@ package main
 
 import (
 	"fmt"
-	"log"
 
 	"./tree"
 	// "github.com/marcsantiago/GoTree/tree"
 )
 
 func main() {
-	// Using time go run example.go, takes
-	// go run example.go  81.86s user 11.17s system 195% cpu 47.536 total
-	// While suming with this function is a slower then just calling GetTreeTotal()
-	// the real bottle neck is adding that many Nodes to the tree. It uses a lot of memory, so be careful when
-	// executing this funcion
+	Using time go run example.go, takes
+	go run example.go  81.86s user 11.17s system 195% cpu 47.536 total
+	While suming with this function is a slower then just calling GetTreeTotal()
+	the real bottle neck is adding that many Nodes to the tree. It uses a lot of memory, so be careful when
+	executing this funcion
 	t := tree.NewTree()
 	log.Println("Creating a tree with 16777216 nodes")
 	t.GenerateRandomTreeIteratively(16777216)
@@ -31,7 +30,7 @@ func main() {
 	fmt.Printf("%+v\n", t.TreeToArray())
 	t.PrintTree()
 
-	t = tree.NewTree()
+	t := tree.NewTree()
 	t.AddIteratively(1, false)
 	t.AddIteratively(2, false)
 	t.AddIteratively(3, false)
@@ -42,7 +41,7 @@ func main() {
 	t.PrintTree()
 	fmt.Println(t.GetDepth())
 	fmt.Println(t.IsBalanced())
-	t.Rebalance()
+	t.AddIteratively(20, true)
 	fmt.Println(t.GetDepth())
 	fmt.Println(t.IsBalanced())
 	t.PrintTree()

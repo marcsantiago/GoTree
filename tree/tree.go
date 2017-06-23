@@ -131,8 +131,11 @@ func (t *Tree) AddRecusively(data int, balanceTree bool) (err error) {
 	t.addRecusively(t.Root, NodeToAdd)
 	if balanceTree {
 		if t.Root != nil {
-			newTree := Rebalance(t)
-			*t = newTree
+			newTree := rebalance(t)
+			if newTree.Root != nil {
+				*t = newTree
+			}
+
 		}
 	}
 	return
@@ -176,8 +179,11 @@ func (t *Tree) AddIteratively(data int, balanceTree bool) (err error) {
 	t.addIteratively(t.Root, NodeToAdd)
 	if balanceTree {
 		if t.Root != nil {
-			newTree := Rebalance(t)
-			*t = newTree
+			newTree := rebalance(t)
+			if newTree.Root != nil {
+				*t = newTree
+			}
+
 		}
 	}
 	return
@@ -302,8 +308,11 @@ func (t *Tree) GenerateRandomTreeRecusively(numberOfNodesToCreate int) (err erro
 		t.AddRecusively(a, false)
 	}
 	if t.Root != nil {
-		newTree := Rebalance(t)
-		*t = newTree
+		newTree := rebalance(t)
+		if newTree.Root != nil {
+			*t = newTree
+		}
+
 	}
 
 	return
@@ -322,8 +331,11 @@ func (t *Tree) GenerateRandomTreeIteratively(numberOfNodesToCreate int) (err err
 		t.AddIteratively(a, false)
 	}
 	if t.Root != nil {
-		newTree := Rebalance(t)
-		*t = newTree
+		newTree := rebalance(t)
+		if newTree.Root != nil {
+			*t = newTree
+		}
+
 	}
 	return
 }
@@ -410,13 +422,13 @@ func (t *Tree) IsBalanced() bool {
 	return true
 }
 
-// Rebalance converts the tree into an array, sorts the array, creates a new tree from that array, and assigns it's pointer
-func Rebalance(t *Tree) (newTree Tree) {
+func rebalance(t *Tree) (newTree Tree) {
 	if !t.IsBalanced() {
 		list := t.TreeToArray()
 		newTree := ArrToTree(list)
 		newTree.Total = t.Total
 		newTree.NodeCount = t.NodeCount
+		return newTree
 	}
 	return
 }
