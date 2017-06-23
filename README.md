@@ -38,7 +38,6 @@ Package tree implements a basic balanced binary tree
 * [type Tree](#Tree)
   * [func ArrToTree(arr []int) Tree](#ArrToTree)
   * [func NewTree() *Tree](#NewTree)
-  * [func Rebalance(t *Tree) (newTree Tree)](#Rebalance)
   * [func (t *Tree) AddIteratively(data int, balanceTree bool) (err error)](#Tree.AddIteratively)
   * [func (t *Tree) AddRecusively(data int, balanceTree bool) (err error)](#Tree.AddRecusively)
   * [func (t *Tree) CountEdges() (edges int)](#Tree.CountEdges)
@@ -119,7 +118,7 @@ Tree basic tree structure
 
 
 
-### <a name="ArrToTree">func</a> [ArrToTree](/src/target/tree.go?s=9138:9168#L415)
+### <a name="ArrToTree">func</a> [ArrToTree](/src/target/tree.go?s=9167:9197#L427)
 ``` go
 func ArrToTree(arr []int) Tree
 ```
@@ -133,17 +132,10 @@ func NewTree() *Tree
 NewTree creates a pointer to the Tree struct
 
 
-### <a name="Rebalance">func</a> [Rebalance](/src/target/tree.go?s=8894:8932#L404)
-``` go
-func Rebalance(t *Tree) (newTree Tree)
-```
-Rebalance converts the tree into an array, sorts the array, creates a new tree from that array, and assigns it's pointer
 
 
 
-
-
-### <a name="Tree.AddIteratively">func</a> (\*Tree) [AddIteratively](/src/target/tree.go?s=3418:3487#L150)
+### <a name="Tree.AddIteratively">func</a> (\*Tree) [AddIteratively](/src/target/tree.go?s=3453:3522#L153)
 ``` go
 func (t *Tree) AddIteratively(data int, balanceTree bool) (err error)
 ```
@@ -162,7 +154,7 @@ AddRecusively appends a new Node to a branch in a balanced manner recusively
 
 
 
-### <a name="Tree.CountEdges">func</a> (\*Tree) [CountEdges](/src/target/tree.go?s=5211:5250#L246)
+### <a name="Tree.CountEdges">func</a> (\*Tree) [CountEdges](/src/target/tree.go?s=5281:5320#L252)
 ``` go
 func (t *Tree) CountEdges() (edges int)
 ```
@@ -180,7 +172,7 @@ FindNode recursively looks for the Node with the specified value
 
 
 
-### <a name="Tree.GenerateRandomTreeIteratively">func</a> (\*Tree) [GenerateRandomTreeIteratively](/src/target/tree.go?s=6502:6585#L303)
+### <a name="Tree.GenerateRandomTreeIteratively">func</a> (\*Tree) [GenerateRandomTreeIteratively](/src/target/tree.go?s=6605:6688#L312)
 ``` go
 func (t *Tree) GenerateRandomTreeIteratively(numberOfNodesToCreate int) (err error)
 ```
@@ -189,7 +181,7 @@ GenerateRandomTreeIteratively uses time (time.Now().Unix()) to create enthorpy f
 
 
 
-### <a name="Tree.GenerateRandomTreeRecusively">func</a> (\*Tree) [GenerateRandomTreeRecusively](/src/target/tree.go?s=5968:6050#L283)
+### <a name="Tree.GenerateRandomTreeRecusively">func</a> (\*Tree) [GenerateRandomTreeRecusively](/src/target/tree.go?s=6038:6120#L289)
 ``` go
 func (t *Tree) GenerateRandomTreeRecusively(numberOfNodesToCreate int) (err error)
 ```
@@ -198,7 +190,7 @@ GenerateRandomTreeRecusively uses time (time.Now().Unix()) to create enthorpy fo
 
 
 
-### <a name="Tree.GetDepth">func</a> (\*Tree) [GetDepth](/src/target/tree.go?s=8386:8419#L387)
+### <a name="Tree.GetDepth">func</a> (\*Tree) [GetDepth](/src/target/tree.go?s=8522:8555#L399)
 ``` go
 func (t *Tree) GetDepth() float64
 ```
@@ -207,7 +199,7 @@ GetDepth gets the maximum depth of the tree
 
 
 
-### <a name="Tree.GetRootData">func</a> (\*Tree) [GetRootData](/src/target/tree.go?s=6997:7029#L322)
+### <a name="Tree.GetRootData">func</a> (\*Tree) [GetRootData](/src/target/tree.go?s=7133:7165#L334)
 ``` go
 func (t *Tree) GetRootData() int
 ```
@@ -216,7 +208,7 @@ GetRootData returns the data stored at the root, however this does not return th
 
 
 
-### <a name="Tree.GetTreeTotal">func</a> (\*Tree) [GetTreeTotal](/src/target/tree.go?s=7123:7156#L327)
+### <a name="Tree.GetTreeTotal">func</a> (\*Tree) [GetTreeTotal](/src/target/tree.go?s=7259:7292#L339)
 ``` go
 func (t *Tree) GetTreeTotal() int
 ```
@@ -225,7 +217,7 @@ GetTreeTotal returns the sum of the collective nodes on the Tree
 
 
 
-### <a name="Tree.InOrderTraversal">func</a> (\*Tree) [InOrderTraversal](/src/target/tree.go?s=4281:4314#L198)
+### <a name="Tree.InOrderTraversal">func</a> (\*Tree) [InOrderTraversal](/src/target/tree.go?s=4351:4384#L204)
 ``` go
 func (t *Tree) InOrderTraversal()
 ```
@@ -234,7 +226,7 @@ InOrderTraversal prints out the values in order
 
 
 
-### <a name="Tree.IsBalanced">func</a> (\*Tree) [IsBalanced](/src/target/tree.go?s=8559:8591#L392)
+### <a name="Tree.IsBalanced">func</a> (\*Tree) [IsBalanced](/src/target/tree.go?s=8695:8727#L404)
 ``` go
 func (t *Tree) IsBalanced() bool
 ```
@@ -243,7 +235,7 @@ IsBalanced checks to see if the tree is balanced, where the threshold is default
 
 
 
-### <a name="Tree.PrintTree">func</a> (\*Tree) [PrintTree](/src/target/tree.go?s=8073:8099#L371)
+### <a name="Tree.PrintTree">func</a> (\*Tree) [PrintTree](/src/target/tree.go?s=8209:8235#L383)
 ``` go
 func (t *Tree) PrintTree()
 ```
@@ -263,7 +255,7 @@ value
 
 
 
-### <a name="Tree.Traversal">func</a> (\*Tree) [Traversal](/src/target/tree.go?s=4769:4795#L222)
+### <a name="Tree.Traversal">func</a> (\*Tree) [Traversal](/src/target/tree.go?s=4839:4865#L228)
 ``` go
 func (t *Tree) Traversal()
 ```
@@ -272,7 +264,7 @@ Traversal prints out the values by branch side, left, right, ect...
 
 
 
-### <a name="Tree.TreeToArray">func</a> (\*Tree) [TreeToArray](/src/target/tree.go?s=7228:7262#L332)
+### <a name="Tree.TreeToArray">func</a> (\*Tree) [TreeToArray](/src/target/tree.go?s=7364:7398#L344)
 ``` go
 func (t *Tree) TreeToArray() []int
 ```
