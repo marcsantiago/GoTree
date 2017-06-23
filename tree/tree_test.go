@@ -8,15 +8,6 @@ import (
 	"time"
 )
 
-func TestSum(t *testing.T) {
-	myTree := NewTree()
-	myTree.GenerateRandomTreeRecusively(1000)
-	sum := myTree.Sum()
-	if myTree.Total != sum {
-		t.Fatalf("The total values should be the same. They are not.  Tree.Total == %d and Tree.Sum() == %d", myTree.Total, sum)
-	}
-}
-
 func TestNewRoot(t *testing.T) {
 	myTree := NewTree()
 	myTree.GenerateRandomTreeRecusively(1000)

@@ -209,43 +209,6 @@ func (t *Tree) traversal(n *Node) {
 	return
 }
 
-// Sum added up all the values stored in the Nodes.. It is a redundant function because total value is kept as a Tree
-// value
-func (t *Tree) Sum() (total int) {
-	var wg sync.WaitGroup
-	c := make(chan int, 100)
-	if t.Root != nil {
-		currentNode := t.Root
-		if currentNode.Left == nil && currentNode.Right == nil {
-			return 1
-		}
-		wg.Add(1)
-		t.sum(currentNode, c, &wg)
-	}
-	go func() {
-		wg.Wait()
-		close(c)
-	}()
-	for n := range c {
-		total += n
-	}
-	return total
-}
-
-func (t *Tree) sum(n *Node, counter chan int, wg *sync.WaitGroup) {
-	defer wg.Done()
-	if n.Left != nil {
-		wg.Add(1)
-		go t.sum(n.Left, counter, wg)
-	}
-	counter <- n.Data
-	if n.Right != nil {
-		wg.Add(1)
-		go t.sum(n.Right, counter, wg)
-	}
-	return
-}
-
 // CountEdges returns the number of edges the tree contains
 func (t *Tree) CountEdges() (edges int) {
 	var wg sync.WaitGroup
@@ -291,7 +254,7 @@ func (t *Tree) GenerateRandomTreeRecusively(numberOfNodesToCreate int) (err erro
 	u := time.Now()
 	source := rand.NewSource(u.Unix())
 	r := rand.New(source)
-	arr := r.Perm(numberOfNodesToCreate)
+	arr := r.Perm(numberOfNodesToCreate + 1)
 	for _, a := range arr {
 		t.AddRecusively(a, false)
 	}
@@ -307,7 +270,7 @@ func (t *Tree) GenerateRandomTreeIteratively(numberOfNodesToCreate int) (err err
 	u := time.Now()
 	source := rand.NewSource(u.Unix())
 	r := rand.New(source)
-	arr := r.Perm(numberOfNodesToCreate)
+	arr := r.Perm(numberOfNodesToCreate + 1)
 	for _, a := range arr {
 		t.AddIteratively(a, false)
 	}
@@ -421,11 +384,12 @@ func (t *Tree) Rebalance() {
 	if !t.IsBalanced() {
 		list := t.TreeToArray()
 		newTree := ArrToTree(list)
-		// copy over meta data
-		newTree.NodeCount = t.NodeCount
-		newTree.Total = t.Total
 		// assign a pointer to a pointer
+		nodeCount := t.NodeCount
+		total := t.Total
 		*t = *newTree
+		t.NodeCount = nodeCount
+		t.Total = total
 	}
 }
 
