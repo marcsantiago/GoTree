@@ -74,6 +74,43 @@ func (t *Tree) findNode(search *Node, target Node) *Node {
 	return returnNode
 }
 
+// Sum added up all the values stored in the Nodes.. It is a redundant function because total value is kept as a Tree
+// value
+func (t *Tree) Sum() (total int) {
+	var wg sync.WaitGroup
+	c := make(chan int, 100)
+	if t.Root != nil {
+		currentNode := t.Root
+		if currentNode.Left == nil && currentNode.Right == nil {
+			return 1
+		}
+		wg.Add(1)
+		t.sum(currentNode, c, &wg)
+	}
+	go func() {
+		wg.Wait()
+		close(c)
+	}()
+	for n := range c {
+		total += n
+	}
+	return total
+}
+
+func (t *Tree) sum(n *Node, counter chan int, wg *sync.WaitGroup) {
+	defer wg.Done()
+	if n.Left != nil {
+		wg.Add(1)
+		go t.sum(n.Left, counter, wg)
+	}
+	counter <- n.Data
+	if n.Right != nil {
+		wg.Add(1)
+		go t.sum(n.Right, counter, wg)
+	}
+	return
+}
+
 // AddRecusively appends a new Node to a branch in a balanced manner recusively
 func (t *Tree) AddRecusively(data int, balanceTree bool) (err error) {
 	t.Total += data
@@ -93,7 +130,10 @@ func (t *Tree) AddRecusively(data int, balanceTree bool) (err error) {
 	}
 	t.addRecusively(t.Root, NodeToAdd)
 	if balanceTree {
-		t.Rebalance()
+		if t.Root != nil {
+			newTree := Rebalance(t)
+			*t = newTree
+		}
 	}
 	return
 }
@@ -135,7 +175,10 @@ func (t *Tree) AddIteratively(data int, balanceTree bool) (err error) {
 	}
 	t.addIteratively(t.Root, NodeToAdd)
 	if balanceTree {
-		t.Rebalance()
+		if t.Root != nil {
+			newTree := Rebalance(t)
+			*t = newTree
+		}
 	}
 	return
 }
@@ -258,7 +301,11 @@ func (t *Tree) GenerateRandomTreeRecusively(numberOfNodesToCreate int) (err erro
 	for _, a := range arr {
 		t.AddRecusively(a, false)
 	}
-	t.Rebalance()
+	if t.Root != nil {
+		newTree := Rebalance(t)
+		*t = newTree
+	}
+
 	return
 }
 
@@ -274,7 +321,10 @@ func (t *Tree) GenerateRandomTreeIteratively(numberOfNodesToCreate int) (err err
 	for _, a := range arr {
 		t.AddIteratively(a, false)
 	}
-	t.Rebalance()
+	if t.Root != nil {
+		newTree := Rebalance(t)
+		*t = newTree
+	}
 	return
 }
 
@@ -326,25 +376,6 @@ func (t *Tree) traversalGetVals(n *Node, c chan int, wg *sync.WaitGroup) {
 	return
 }
 
-// ShiftRoot rebuilds the tree with a new root
-func (t *Tree) ShiftRoot(newRoot int) {
-	n := Tree{}
-	n.AddIteratively(newRoot, false)
-	var wg sync.WaitGroup
-	c := make(chan int, 100)
-	wg.Add(1)
-	n.traversalGetVals(n.Root, c, &wg)
-	go func() {
-		wg.Wait()
-		close(c)
-	}()
-	for num := range c {
-		n.AddIteratively(num, false)
-	}
-	*t = n
-	// t.Rebalance()
-}
-
 // PrintTree uses json.MarshalIndent() to print the Tree in an organized fashion, which can then be analysized as a JSON
 // object
 func (t *Tree) PrintTree() {
@@ -380,23 +411,20 @@ func (t *Tree) IsBalanced() bool {
 }
 
 // Rebalance converts the tree into an array, sorts the array, creates a new tree from that array, and assigns it's pointer
-func (t *Tree) Rebalance() {
+func Rebalance(t *Tree) (newTree Tree) {
 	if !t.IsBalanced() {
 		list := t.TreeToArray()
 		newTree := ArrToTree(list)
-		// assign a pointer to a pointer
-		nodeCount := t.NodeCount
-		total := t.Total
-		*t = *newTree
-		t.NodeCount = nodeCount
-		t.Total = total
+		newTree.Total = t.Total
+		newTree.NodeCount = t.NodeCount
 	}
+	return
 }
 
 // ArrToTree converts an interger slice into a tree
-func ArrToTree(arr []int) *Tree {
+func ArrToTree(arr []int) Tree {
 	sort.Ints(arr)
-	t := new(Tree)
+	t := Tree{}
 	t.Root = arrToTree(arr, 0, len(arr)-1)
 	return t
 }
